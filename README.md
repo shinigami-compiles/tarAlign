@@ -28,11 +28,11 @@ Introducing **TarAlign**, an AI-powered behavioural analysis system that predict
   </tr>
   <tr>
     <td align="center">
-      <strong>Track & Trends</strong><br>
+      <strong>Prediction History</strong><br>
       <img src="screenshots/ss6.png" width="400">
     </td>
     <td align="center">
-      <strong>Help Page</strong><br>
+      <strong>Track & Trends</strong><br>
       <img src="screenshots/ss7.png" width="400">
     </td>
   </tr>
