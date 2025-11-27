@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="screenshots/ss_1.png" width="100%">
+</p>
+
 # 🚀 TarAlign – Behaviour–Goal Alignment Predictor
 
 **Is your behaviour truly capable of achieving your targets?**  
