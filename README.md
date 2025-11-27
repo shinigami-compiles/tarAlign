@@ -14,22 +14,22 @@ Introducing **TarAlign**, an AI-powered behavioural analysis system that predict
 <table>
   <tr>
     <td align="center">
-      <strong>Home Page</strong><br>
-      <img src="screenshots/screenshot_home.png" width="400">
+      <strong>Predict Page</strong><br>
+      <img src="screenshots/ss_1.png" width="400">
     </td>
     <td align="center">
-      <strong>Manual Input</strong><br>
-      <img src="screenshots/screenshot_manual.png" width="400">
+      <strong>Result Page</strong><br>
+      <img src="screenshots/ss5.png" width="400">
     </td>
   </tr>
   <tr>
     <td align="center">
-      <strong>Results Page</strong><br>
-      <img src="screenshots/screenshot_results.png" width="400">
+      <strong>Track & Trends</strong><br>
+      <img src="screenshots/ss6.png" width="400">
     </td>
     <td align="center">
-      <strong>Records Dashboard</strong><br>
-      <img src="screenshots/screenshot_records.png" width="400">
+      <strong>Help Page</strong><br>
+      <img src="screenshots/ss7.png" width="400">
     </td>
   </tr>
 </table>
