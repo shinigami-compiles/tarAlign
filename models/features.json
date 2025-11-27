@@ -1,0 +1,22 @@
+[
+  "minutes_goal",
+  "consistency_index",
+  "sleep_hours",
+  "avg_minutes_last_week",
+  "avg_consistency_last_week",
+  "avg_sleep_last_week",
+  "avg_minutes_last_month",
+  "momentum_last_month",
+  "friction_last_month",
+  "avg_sleep_last_month",
+  "baseline_goal_minutes",
+  "baseline_consistency",
+  "baseline_sleep_hours",
+  "task_switch_avg",
+  "exercise_avg",
+  "day_of_week",
+  "is_weekend",
+  "goal_weight_career",
+  "goal_weight_fitness",
+  "goal_weight_learning"
+]

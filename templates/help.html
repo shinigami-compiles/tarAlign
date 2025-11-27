@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TarAlign - Help</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-logo">
+            <img src="{{ url_for('static', filename='taralign_logo.png') }}" alt="TarAlign Logo" class="logo-image">
+            <span class="logo-text">TarAlign</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link">
+                <span class="nav-icon"></span>
+                Predict
+            </a>
+            <a href="/records" class="nav-link">
+                <span class="nav-icon"></span>
+                Records
+            </a>
+            <a href="/help" class="nav-link active">
+                <span class="nav-icon"></span>
+                Help
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="main-header">
+            <h1 class="glow-text glacier-glow">
+                <span class="title-accent">❓</span> Help & Guide
+            </h1>
+        </header>
+
+        <!-- Feature Explanations -->
+        <section class="results-card">
+            <div class="card-header">
+                <h2>
+                    <span class="section-icon">📖</span>
+                    Understanding the 20 Input Features
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="help-grid">
+                    {% for feature in features %}
+                    <div class="help-item">
+                        <h3 class="help-title">{{ loop.index }}. {{ feature.name }}</h3>
+                        <p class="help-question">{{ feature.question }}</p>
+                        <p class="help-example">
+                            <strong>Example input:</strong> {{ feature.placeholder }}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- CSV Structure -->
+        <section class="results-card">
+            <div class="card-header">
+                <h2>
+                    <span class="section-icon">📄</span>
+                    CSV File Structure (22 Columns)
+                </h2>
+            </div>
+            <div class="card-body">
+                <p class="card-description">
+                    Your CSV must have <strong>22 columns</strong>: 2 metadata + 20 core features
+                </p>
+                
+                <h3 style="color: var(--glacier-secondary); margin-top: 1.5rem;">Metadata (2 columns):</h3>
+                <ul style="color: var(--text-secondary); margin-left: 1.5rem;">
+                    <li><strong>user_id</strong> - User identifier (e.g., "user_001")</li>
+                    <li><strong>date</strong> - Date in YYYY-MM-DD format (e.g., "2025-01-15")</li>
+                </ul>
+                
+                <h3 style="color: var(--glacier-secondary); margin-top: 1.5rem;">Core Features (20 columns):</h3>
+                <ul style="color: var(--text-secondary); margin-left: 1.5rem;">
+                    <li><strong>minutes_goal</strong> - Daily goal minutes</li>
+                    <li><strong>consistency_index</strong> - Consistency score (0-1)</li>
+                    <li><strong>sleep_hours</strong> - Hours of sleep</li>
+                    <li><strong>avg_minutes_last_week</strong> - Weekly average goal minutes</li>
+                    <li><strong>avg_consistency_last_week</strong> - Weekly average consistency</li>
+                    <li><strong>avg_sleep_last_week</strong> - Weekly average sleep</li>
+                    <li><strong>avg_minutes_last_month</strong> - Monthly average goal minutes</li>
+                    <li><strong>momentum_last_month</strong> - Monthly momentum (0-1)</li>
+                    <li><strong>friction_last_month</strong> - Monthly friction (0-1)</li>
+                    <li><strong>avg_sleep_last_month</strong> - Monthly average sleep</li>
+                    <li><strong>baseline_goal_minutes</strong> - Starting goal minutes</li>
+                    <li><strong>baseline_consistency</strong> - Starting consistency</li>
+                    <li><strong>baseline_sleep_hours</strong> - Starting sleep hours</li>
+                    <li><strong>task_switch_avg</strong> - Task switching rate (0-1)</li>
+                    <li><strong>exercise_avg</strong> - Average exercise minutes</li>
+                    <li><strong>day_of_week</strong> - Day (0=Monday, 6=Sunday)</li>
+                    <li><strong>is_weekend</strong> - Weekend flag (0 or 1)</li>
+                    <li><strong>goal_weight_career</strong> - Career priority (0-1)</li>
+                    <li><strong>goal_weight_fitness</strong> - Fitness priority (0-1)</li>
+                    <li><strong>goal_weight_learning</strong> - Learning priority (0-1)</li>
+                </ul>
+                
+                <div class="csv-structure">
+                    <pre class="code-block">
+user_id,date,minutes_goal,consistency_index,sleep_hours,
+avg_minutes_last_week,avg_consistency_last_week,avg_sleep_last_week,
+avg_minutes_last_month,momentum_last_month,friction_last_month,
+avg_sleep_last_month,baseline_goal_minutes,baseline_consistency,
+baseline_sleep_hours,task_switch_avg,exercise_avg,day_of_week,
+is_weekend,goal_weight_career,goal_weight_fitness,goal_weight_learning
+
+Example Row:
+user_001,2025-01-15,120,0.85,7.5,90,0.7,7.0,75,0.6,0.4,6.8,60,0.6,6.5,0.3,30,2,0,0.4,0.3,0.3
+                    </pre>
+                </div>
+                <p class="help-note">
+                    <strong>Important:</strong> This CSV Format is mandatory!
+                </p>
+            </div>
+        </section>
+
+        <!-- Download Template -->
+        <section class="results-card highlight-card">
+            <div class="card-header">
+                <h2>
+                    <span class="section-icon">📥</span>
+                    Download CSV Template
+                </h2>
+            </div>
+            <div class="card-body">
+                <p class="card-description">
+                    Download a pre-formatted CSV template to get started quickly.
+                </p>
+                <a href="/download_template" class="btn btn-primary glow-button" download>
+                    <span class="btn-icon">⬇️</span>
+                    <span>Download Template</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="results-card">
+            <div class="card-header">
+                <h2>
+                    <span class="section-icon">⚙️</span>
+                    How TarAlign Works
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="how-it-works">
+                    <div class="step">
+                        <h3>Step 1: Input Data</h3>
+                        <p>Provide 20 key behavioral metrics via manual entry or CSV upload.</p>
+                    </div>
+                    <div class="step">
+                        <h3>Step 2: Prediction</h3>
+                        <p>Logistic Regression model predicts alignment probability (0-1).</p>
+                    </div>
+                    <div class="step">
+                        <h3>Step 3: Results</h3>
+                        <p>View your alignment score and classification (Aligned/Misaligned).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="main-footer">
+        <p>TarAlign v1.0 | Help & Documentation</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,56 @@
+# ===============================
+# Python Cache and Bytecode
+# ===============================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ===============================
+# Virtual Environment (your env)
+# ===============================
+taralign/
+taralign/*
+
+
+
+
+# In case user renames env
+.env
+.venv/
+venv/
+ENV/
+
+
+datasets/
+
+
+# ===============================
+# OS Files
+# ===============================
+.DS_Store
+Thumbs.db
+
+# ===============================
+# Logs
+# ===============================
+*.log
+
+# ===============================
+# Runtime Files (Not needed in repo)
+# ===============================
+history/
+
+# ===============================
+# Editor / IDE Files
+# ===============================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ===============================
+# Optional: Ignore large datasets
+# Uncomment if dataset > 50MB
+# ===============================
+# datasets/

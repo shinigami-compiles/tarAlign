@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TarAlign - Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-logo">
+            <img src="{{ url_for('static', filename='taralign_logo.png') }}" alt="TarAlign Logo" class="logo-image">
+            <span class="logo-text">TarAlign</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link">
+                <span class="nav-icon"></span>
+                Predict
+            </a>
+            <a href="/records" class="nav-link">
+                <span class="nav-icon"></span>
+                Records
+            </a>
+            <a href="/help" class="nav-link">
+                <span class="nav-icon"></span>
+                Help
+            </a>
+        </div>
+    </nav>
+
+    <div class="container results-container">
+        <header class="main-header">
+            <h1 class="glow-text glacier-glow">
+                <span class="title-accent"></span> Prediction Results
+            </h1>
+            <a href="/" class="btn-back">
+                <span>←</span> New Prediction
+            </a>
+        </header>
+
+        <section class="results-card highlight-card">
+            <div class="card-header">
+                <h2>
+                    <span class="section-icon"></span>
+                    Alignment Score
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="score-display">
+                    <div class="score-circle {{ 'score-aligned' if pred_class == 1 else 'score-misaligned' }}">
+                        <div class="score-value">{{ alignment_score }}</div>
+                        <div class="score-label">{{ alignment_label }}</div>
+                    </div>
+                    <div class="score-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Probability:</span>
+                            <span class="detail-value">{{ (alignment_score|float * 100)|round(2) }}%</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Classification:</span>
+                            <span class="detail-value {{ 'text-aligned' if pred_class == 1 else 'text-misaligned' }}">
+                                {{ alignment_label }}
+                            </span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Model:</span>
+                            <span class="detail-value">Logistic Regression</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="score-description">
+                    <p>
+                        {% if pred_class == 1 %}
+                        <strong class="text-aligned">✓ Excellent:</strong> Your behavioral patterns show strong alignment with your long-term goals. 
+                        The model predicts you're on track with <strong>{{ (alignment_score|float * 100)|round(1) }}%</strong> confidence.
+                        {% else %}
+                        <strong class="text-misaligned"> Attention Needed:</strong> Your behavioral patterns suggest misalignment with long-term goals.
+                        Consider reviewing your daily habits and routines.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="main-footer">
+        <p>TarAlign v1.0 | Logistic Regression Model</p>
+    </footer>
+</body>
+</html>

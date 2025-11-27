@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TarAlign - Records</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-logo">
+            <img src="{{ url_for('static', filename='taralign_logo.png') }}" alt="TarAlign Logo" class="logo-image">
+            <span class="logo-text">TarAlign</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link">
+                <span class="nav-icon"></span>
+                Predict
+            </a>
+            <a href="/records" class="nav-link active">
+                <span class="nav-icon"></span>
+                Records
+            </a>
+            <a href="/help" class="nav-link">
+                <span class="nav-icon"></span>
+                Help
+            </a>
+        </div>
+    </nav>
+
+    <div class="container records-page-container">
+        <header class="main-header">
+            <h1 class="glow-text glacier-glow">
+                <span class="title-accent"></span> Prediction History
+            </h1>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="clearHistory()">
+                    <span class="btn-icon">🗑️</span>
+                    Clear History
+                </button>
+            </div>
+        </header>
+
+        {% if records %}
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"></div>
+                <div class="stat-content">
+                    <div class="stat-value">{{ records|length }}</div>
+                    <div class="stat-label">Total Predictions</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"></div>
+                <div class="stat-content">
+                    <div class="stat-value">{{ records|selectattr('aligned_label', 'equalto', 1)|list|length }}</div>
+                    <div class="stat-label">Aligned</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚠</div>
+                <div class="stat-content">
+                    <div class="stat-value">{{ records|selectattr('aligned_label', 'equalto', 0)|list|length }}</div>
+                    <div class="stat-label">Misaligned</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"></div>
+                <div class="stat-content">
+                    <div class="stat-value">
+                        {{ ((records|selectattr('aligned_label', 'equalto', 1)|list|length / records|length * 100)|round(1)) }}%
+                    </div>
+                    <div class="stat-label">Alignment Rate</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="results-card chart-card">
+            <div class="card-header">
+                <h2>
+                    <span class="section-icon"></span>
+                    Alignment Score Trends
+                </h2>
+            </div>
+            <div class="card-body">
+                <canvas id="alignmentChart"></canvas>
+            </div>
+        </section>
+
+        <section class="results-card">
+            <div class="card-header">
+                <h2>
+                    <span class="section-icon"></span>
+                    All Predictions
+                </h2>
+                <input type="text" id="search-input" class="search-input" placeholder="🔍 Search..." onkeyup="filterTable()">
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table class="records-table" id="records-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>User</th>
+                                <th>Score</th>
+                                <th>Status</th>
+                                <th>Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in records %}
+                            <tr>
+                                <td>{{ record.timestamp }}</td>
+                                <td>{{ record.user_id }}</td>
+                                <td><span class="score-badge">{{ "%.4f"|format(record.alignment_score) }}</span></td>
+                                <td><span class="status-badge {{ 'status-aligned' if record.aligned_label == 1 else 'status-misaligned' }}">
+                                    {{ record.alignment_class }}
+                                </span></td>
+                                <td>{{ record.input_method }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        {% else %}
+        <section class="empty-state">
+            <div class="empty-icon"></div>
+            <h2>No Predictions Yet</h2>
+            <p>Make your first prediction to see history.</p>
+            <a href="/" class="btn btn-primary glow-button">
+                <span class="btn-icon">🚀</span>
+                Make First Prediction
+            </a>
+        </section>
+        {% endif %}
+    </div>
+
+    <footer class="main-footer">
+        <p>TarAlign v1.0 | Prediction History</p>
+    </footer>
+
+    <script>
+        {% if records %}
+        const records = {{ records|tojson }};
+        const chartLabels = records.reverse().map(r => new Date(r.timestamp).toLocaleDateString());
+        const chartScores = records.map(r => r.alignment_score);
+        const chartColors = records.map(r => r.aligned_label === 1 ? '#4fc3f7' : '#ef5350');
+
+        new Chart(document.getElementById('alignmentChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Alignment Score',
+                    data: chartScores,
+                    borderColor: '#4fc3f7',
+                    backgroundColor: 'rgba(79, 195, 247, 0.1)',
+                    borderWidth: 3,
+                    pointBackgroundColor: chartColors,
+                    pointBorderColor: '#ffffff',
+                    pointRadius: 6,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, max: 1, grid: { color: '#263238' }, ticks: { color: '#b0bec5' } },
+                    x: { grid: { color: '#263238' }, ticks: { color: '#b0bec5', maxRotation: 45 } }
+                }
+            }
+        });
+        {% endif %}
+
+        function filterTable() {
+            const input = document.getElementById('search-input').value.toUpperCase();
+            const rows = document.getElementById('records-table').getElementsByTagName('tr');
+            for (let i = 1; i < rows.length; i++) {
+                const text = rows[i].textContent.toUpperCase();
+                rows[i].style.display = text.indexOf(input) > -1 ? '' : 'none';
+            }
+        }
+
+        function clearHistory() {
+            if (confirm('Clear all history?')) {
+                fetch('/clear_history', { method: 'POST' })
+                    .then(response => response.json())
+                    .then(() => location.reload());
+            }
+        }
+    </script>
+</body>
+</html>
